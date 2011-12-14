@@ -1,0 +1,184 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use v5.10;
+use App::Rad;
+use HTTP::Async;
+use HTTP::Request;
+use JSON qw(to_json from_json);
+use LWP;
+use Method::Signatures::Simple;
+use Net::OpenStack::Attack;
+use Time::SoFar qw(runtime);
+
+func setup($ctx) {
+    $ctx->register_commands({
+        create_servers => 'create x number of servers (--image|-i optional)',
+        delete_servers => 'delete all servers',
+        get_servers    => 'run x number of server list requests',
+        get_images     => 'run x number of image list requests',
+        bad            => 'run x number of bad/invalid requests',
+    });
+
+    # Determine the version
+    my $base_url = $ENV{NOVA_URL};
+    die "NOVA_URL env var is missing. Did you forget to source a novarc?\n"
+        unless $base_url;
+    $base_url =~ s{/$}{}; # Remove trailing slash if it exists
+    my ($version) = $base_url =~ /(v\d\.\d)$/;
+    die "Could not determine version from url [$base_url]"
+        unless $version;
+
+    # Do auth and stash the auth token and base url
+    my ($real_base_url, $token) = Net::OpenStack::Attack::auth($base_url);
+    $ctx->stash->{base_url} = $real_base_url;
+    $ctx->stash->{auth_headers} = [
+        'x-auth-token' => $token,
+        'content-type' => 'application/json',
+    ];
+}
+
+func pre_process($ctx) {
+    $ctx->getopt('verbose|v', 'image|i=s');
+    $ctx->stash->{num_runs} = $ctx->argv->[0] || 1;
+}
+
+#---------- Commands ----------------------------------------------------------
+
+func create_servers($ctx) {
+    my $num_runs = $ctx->stash->{num_runs};
+    my $image = $ctx->options->{image} || get_any_image($ctx);
+    my $body = to_json {
+        server => {
+            name      => 'test-server',
+            imageRef  => $image,
+            flavorRef => 1,
+        }
+    };
+    my @reqs = map makereq($ctx, POST => '/servers', $body), 1 .. $num_runs;
+    say "Creating $num_runs servers...";
+    return sendreqs($ctx, @reqs);
+}
+
+func delete_servers($ctx) {
+    my $ua = LWP::UserAgent->new();
+    my $base_url = $ctx->stash->{base_url};
+    my $res = $ua->get("$base_url/servers", @{ $ctx->stash->{auth_headers} });
+
+    die "Error getting server list: " . $res->content unless $res->is_success;
+
+    my $data = from_json($res->content);
+    my @servers = @{ $data->{servers} };
+    my @reqs = map makereq($ctx, DELETE => "/servers/$_->{id}"), @servers;
+    say "Deleting " . @servers . " servers...";
+    return sendreqs($ctx, @reqs);
+}
+
+func bad($ctx) {
+    my $num_runs = $ctx->stash->{num_runs};
+    my @reqs = map makereq($ctx, GET => '/bad'), 1 .. $num_runs;
+    say "Sending $num_runs /bad requests...";
+    return sendreqs($ctx, @reqs);
+}
+
+func get_images($ctx) {
+    my $num_runs = $ctx->stash->{num_runs};
+    my @reqs = map makereq($ctx, GET => '/images'), 1 .. $num_runs;
+    say "Sending $num_runs /images requests...";
+    return sendreqs($ctx, @reqs);
+}
+
+func get_servers($ctx) {
+    my $num_runs = $ctx->stash->{num_runs};
+    my @reqs = map makereq($ctx, GET => '/servers'), 1 .. $num_runs;
+    say "Sending $num_runs /servers requests...";
+    return sendreqs($ctx, @reqs);
+}
+
+#---------- Helpers -----------------------------------------------------------
+
+func makereq($ctx, $method, $resource, $body) {
+    my $url = $ctx->stash->{base_url} . $resource;
+    my $headers = $ctx->stash->{auth_headers};
+    return HTTP::Request->new($method => $url, $headers, $body);
+}
+
+func sendreqs($ctx, @reqs) {
+    my $async = HTTP::Async->new;
+    $async->add(@reqs);
+    my ($successes, $failures, @errmsgs) = (0, 0);
+    while (my $res = $async->wait_for_next_response) {
+        if ($res->is_success) {
+            $successes++;
+        } else {
+            $failures++;
+            push @errmsgs, $res->content;
+        }
+    }
+
+    if ($ctx->options->{verbose}) {
+        foreach my $msg (@errmsgs) { warn "$msg\n" }
+    }
+    return "Successes: $successes Failures: $failures Time: " . runtime();
+}
+
+func get_any_image($ctx) {
+    my $ua = LWP::UserAgent->new();
+    my $base_url = $ctx->stash->{base_url};
+    my $res = $ua->get("$base_url/images", @{ $ctx->stash->{auth_headers} });
+    die "Error grabbing arbitrary image id: " . $res->content
+        unless $res->is_success;
+    return from_json($res->content)->{images}[0]{id};
+}
+
+App::Rad->run();
+
+# PODNAME: stackattack
+
+
+__END__
+=pod
+
+=head1 NAME
+
+stackattack
+
+=head1 VERSION
+
+version 0.0001
+
+=head1 SYNOPSIS
+
+    Usage: stackattack command [args]
+
+    Available Commands:
+        bad                 run x number of bad/invalid requests
+        create_servers      create x number of servers (--image|-i optional)
+        delete_servers      delete all servers
+        get_images          run x number of image list requests
+        get_servers         run x number of server list requests
+        help                show syntax and available commands
+
+    --verbose|-v after a command will print failures to stderr
+
+    Examples:
+
+    # Create 10 servers in parallel
+    $ stackattack create_servers 10
+
+    # Same thing, but more verbose
+    $ stackattack create_servers -v 10
+
+=head1 AUTHOR
+
+Naveed Massjouni <naveedm9@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2011 by Naveed Massjouni.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+

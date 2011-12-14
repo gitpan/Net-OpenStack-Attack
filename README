@@ -1,0 +1,19 @@
+NAME
+    Net::OpenStack::Attack - Steroids for your perl one-liners.
+
+VERSION
+    version 0.0001
+
+DESCRIPTION
+    This module contains helper methods used by stackattack. You probably
+    want to look at the documentation for stackattack instead.
+
+AUTHOR
+    Naveed Massjouni <naveedm9@gmail.com>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2011 by Naveed Massjouni.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+
