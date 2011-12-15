@@ -2,8 +2,9 @@ package Net::OpenStack::Attack;
 use strict;
 use warnings;
 
-our $VERSION = '0.0001'; # VERSION
+our $VERSION = '0.0002'; # VERSION
 
+use JSON qw(from_json to_json);
 use LWP;
 use Method::Signatures::Simple;
 
@@ -78,16 +79,26 @@ Net::OpenStack::Attack - Steroids for your perl one-liners.
 
 =head1 VERSION
 
-version 0.0001
+version 0.0002
 
 =head1 DESCRIPTION
 
 This module contains helper methods used by stackattack.
 You probably want to look at the documentation for L<stackattack> instead.
 
-=head1 AUTHOR
+=head1 AUTHORS
+
+=over 4
+
+=item *
+
+William Wolf <throughnothing@gmail.com>
+
+=item *
 
 Naveed Massjouni <naveedm9@gmail.com>
+
+=back
 
 =head1 COPYRIGHT AND LICENSE
 

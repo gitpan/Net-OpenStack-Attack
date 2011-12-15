@@ -10,7 +10,7 @@ use ExtUtils::MakeMaker 6.30;
 
 my %WriteMakefileArgs = (
   "ABSTRACT" => "Steroids for your perl one-liners.",
-  "AUTHOR" => "Naveed Massjouni <naveedm9\@gmail.com>",
+  "AUTHOR" => "William Wolf <throughnothing\@gmail.com>, Naveed Massjouni <naveedm9\@gmail.com>",
   "BUILD_REQUIRES" => {},
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30"
@@ -30,7 +30,7 @@ my %WriteMakefileArgs = (
     "Method::Signatures::Simple" => 0,
     "Time::SoFar" => 0
   },
-  "VERSION" => "0.0001",
+  "VERSION" => "0.0002",
   "test" => {
     "TESTS" => ""
   }

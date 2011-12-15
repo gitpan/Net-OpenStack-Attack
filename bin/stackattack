@@ -145,7 +145,7 @@ stackattack
 
 =head1 VERSION
 
-version 0.0001
+version 0.0002
 
 =head1 SYNOPSIS
 
@@ -169,9 +169,19 @@ version 0.0001
     # Same thing, but more verbose
     $ stackattack create_servers -v 10
 
-=head1 AUTHOR
+=head1 AUTHORS
+
+=over 4
+
+=item *
+
+William Wolf <throughnothing@gmail.com>
+
+=item *
 
 Naveed Massjouni <naveedm9@gmail.com>
+
+=back
 
 =head1 COPYRIGHT AND LICENSE
 
