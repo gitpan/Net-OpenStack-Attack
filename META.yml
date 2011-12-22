@@ -1,5 +1,5 @@
 ---
-abstract: 'Steroids for your perl one-liners.'
+abstract: 'Tools for stress testing an OpenStack deployment.'
 author:
   - 'William Wolf <throughnothing@gmail.com>'
   - 'Naveed Massjouni <naveedm9@gmail.com>'
@@ -20,8 +20,9 @@ requires:
   JSON: 0
   LWP: 0
   Method::Signatures::Simple: 0
+  Net::OpenStack::Compute: 1.0000
   Time::SoFar: 0
 resources:
   bugtracker: http://github.com/ironcamel/Net-OpenStack-Attack/issues
   repository: git://github.com/ironcamel/Net-OpenStack-Attack.git
-version: 0.0002
+version: 1.0000

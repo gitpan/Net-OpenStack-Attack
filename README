@@ -1,12 +1,12 @@
 NAME
-    Net::OpenStack::Attack - Steroids for your perl one-liners.
+    Net::OpenStack::Attack - Tools for stress testing an OpenStack
+    deployment.
 
 VERSION
-    version 0.0002
+    version 1.0000
 
 DESCRIPTION
-    This module contains helper methods used by stackattack. You probably
-    want to look at the documentation for stackattack instead.
+    You probably want to look at the documentation for stackattack instead.
 
 AUTHORS
     *   William Wolf <throughnothing@gmail.com>

@@ -9,7 +9,7 @@ use ExtUtils::MakeMaker 6.30;
 
 
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "Steroids for your perl one-liners.",
+  "ABSTRACT" => "Tools for stress testing an OpenStack deployment.",
   "AUTHOR" => "William Wolf <throughnothing\@gmail.com>, Naveed Massjouni <naveedm9\@gmail.com>",
   "BUILD_REQUIRES" => {},
   "CONFIGURE_REQUIRES" => {
@@ -28,9 +28,10 @@ my %WriteMakefileArgs = (
     "JSON" => 0,
     "LWP" => 0,
     "Method::Signatures::Simple" => 0,
+    "Net::OpenStack::Compute" => "1.0000",
     "Time::SoFar" => 0
   },
-  "VERSION" => "0.0002",
+  "VERSION" => "1.0000",
   "test" => {
     "TESTS" => ""
   }
