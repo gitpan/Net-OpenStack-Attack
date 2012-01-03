@@ -4,7 +4,7 @@ The purpose of this tool is to help with stress testing OpenStack.
 It makes asynchronous http requests to slam an OpenStack deployment.
 For example, the following makes 50 create server requests in parallel:
 
-    stackattack create_servers  50
+    stackattack create 50
 
 # Installation
 
@@ -34,4 +34,4 @@ Make sure to source a novarc file first to have env variables set up.
 
 # Documentation
 
-See https://metacpan.org/module/stackattack
+See [stackattack](https://metacpan.org/module/stackattack)

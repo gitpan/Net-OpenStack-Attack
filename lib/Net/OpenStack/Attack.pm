@@ -1,6 +1,6 @@
 package Net::OpenStack::Attack;
 
-our $VERSION = '1.0000'; # VERSION
+our $VERSION = '1.0001'; # VERSION
 
 # ABSTRACT: Tools for stress testing an OpenStack deployment.
 
@@ -16,7 +16,7 @@ Net::OpenStack::Attack - Tools for stress testing an OpenStack deployment.
 
 =head1 VERSION
 
-version 1.0000
+version 1.0001
 
 =head1 DESCRIPTION
 
