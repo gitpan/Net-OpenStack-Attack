@@ -3,10 +3,16 @@ NAME
     deployment.
 
 VERSION
-    version 1.0001
+    version 1.0100
 
 DESCRIPTION
-    You probably want to look at the documentation for stackattack instead.
+    This class provides methods for making parallel, asynchronous requests
+    to the OpenStack API. This distribution comes with a command line tool
+    stackattack which heavily uses this class.
+
+SEE ALSO
+    stackattack
+    Net::OpenStack::Compute
 
 AUTHORS
     *   William Wolf <throughnothing@gmail.com>
