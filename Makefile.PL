@@ -30,7 +30,7 @@ my %WriteMakefileArgs = (
     "Net::OpenStack::Compute" => "1.0401",
     "Time::SoFar" => 0
   },
-  "VERSION" => "1.0100",
+  "VERSION" => "1.0200",
   "test" => {
     "TESTS" => ""
   }

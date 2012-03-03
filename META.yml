@@ -24,4 +24,4 @@ requires:
 resources:
   bugtracker: http://github.com/ironcamel/Net-OpenStack-Attack/issues
   repository: git://github.com/ironcamel/Net-OpenStack-Attack.git
-version: 1.0100
+version: 1.0200
