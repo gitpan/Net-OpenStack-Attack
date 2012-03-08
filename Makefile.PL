@@ -24,13 +24,14 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "Any::Moose" => 0,
     "App::Rad" => 0,
-    "HTTP::Async" => 0,
+    "HTTP::Async" => "0.10",
     "HTTP::Request" => 0,
     "JSON" => 0,
+    "Net::HTTPS::NB" => 0,
     "Net::OpenStack::Compute" => "1.0401",
     "Time::SoFar" => 0
   },
-  "VERSION" => "1.0200",
+  "VERSION" => "1.0300",
   "test" => {
     "TESTS" => ""
   }
