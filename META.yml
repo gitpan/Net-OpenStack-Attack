@@ -25,4 +25,4 @@ requires:
 resources:
   bugtracker: http://github.com/ironcamel/Net-OpenStack-Attack/issues
   repository: git://github.com/ironcamel/Net-OpenStack-Attack.git
-version: 1.0300
+version: 1.0400

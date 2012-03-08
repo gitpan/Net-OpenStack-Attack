@@ -3,7 +3,7 @@ NAME
     deployment.
 
 VERSION
-    version 1.0300
+    version 1.0400
 
 DESCRIPTION
     This class provides methods for making parallel, asynchronous requests

@@ -5,7 +5,7 @@ use HTTP::Async;
 use HTTP::Request;
 use JSON qw(to_json from_json);
 
-our $VERSION = '1.0300'; # VERSION
+our $VERSION = '1.0400'; # VERSION
 
 has compute => (is => 'ro', isa => 'Net::OpenStack::Compute', required => 1);
 
@@ -25,7 +25,20 @@ sub create_servers {
 
 sub delete_servers {
     my ($self, $servers) = @_;
-    my @reqs = map { $self->make_req(DELETE => "/servers/$_->{id}") } @$servers;
+    my @reqs = map $self->make_req(DELETE => "/servers/$_->{id}"), @$servers;
+    return $self->send_reqs(@reqs);
+}
+
+sub rebuild_servers {
+    my ($self, $servers, $image) = @_;
+    $image ||= $self->get_any_image();
+    my $body = to_json {
+        rebuild => {
+            imageRef  => $image,
+        }
+    };
+    my @reqs = map $self->make_req(POST => "/servers/$_->{id}/action", $body),
+        @$servers;
     return $self->send_reqs(@reqs);
 }
 
@@ -78,7 +91,7 @@ Net::OpenStack::Attack - Tools for stress testing an OpenStack deployment.
 
 =head1 VERSION
 
-version 1.0300
+version 1.0400
 
 =head1 DESCRIPTION
 
