@@ -5,7 +5,7 @@ use HTTP::Async;
 use HTTP::Request;
 use JSON qw(to_json from_json);
 
-our $VERSION = '1.0400'; # VERSION
+our $VERSION = '1.0401'; # VERSION
 
 has compute => (is => 'ro', isa => 'Net::OpenStack::Compute', required => 1);
 
@@ -91,7 +91,7 @@ Net::OpenStack::Attack - Tools for stress testing an OpenStack deployment.
 
 =head1 VERSION
 
-version 1.0400
+version 1.0401
 
 =head1 DESCRIPTION
 
