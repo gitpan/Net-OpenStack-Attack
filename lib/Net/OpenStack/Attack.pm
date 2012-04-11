@@ -5,7 +5,7 @@ use HTTP::Async;
 use HTTP::Request;
 use JSON qw(to_json from_json);
 
-our $VERSION = '1.0401'; # VERSION
+our $VERSION = '1.0500'; # VERSION
 
 has compute => (is => 'ro', isa => 'Net::OpenStack::Compute', required => 1);
 
@@ -68,7 +68,7 @@ sub send_reqs {
             $successes++;
         } else {
             $failures++;
-            warn sprintf "Error: %s: %s", $res->status_line, $res->content;
+            warn sprintf "Error: %s: %s\n", $res->status_line, $res->content;
         }
     }
 
@@ -91,7 +91,7 @@ Net::OpenStack::Attack - Tools for stress testing an OpenStack deployment.
 
 =head1 VERSION
 
-version 1.0401
+version 1.0500
 
 =head1 DESCRIPTION
 
